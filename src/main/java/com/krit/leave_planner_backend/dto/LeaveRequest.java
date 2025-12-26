@@ -2,14 +2,14 @@ package com.krit.leave_planner_backend.dto;
 
 public class LeaveRequest {
 
-    private Long userId;
+    private Integer userId;
     private String date;
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

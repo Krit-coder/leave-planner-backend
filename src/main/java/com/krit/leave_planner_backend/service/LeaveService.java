@@ -2,6 +2,9 @@ package com.krit.leave_planner_backend.service;
 
 import com.krit.leave_planner_backend.entity.Leave;
 import com.krit.leave_planner_backend.repository.LeaveRepository;
+import com.krit.leave_planner_backend.security.UserPrincipal;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -17,8 +20,27 @@ public class LeaveService {
         this.leaveRepository = leaveRepository;
     }
 
-    public void toggleLeave(Long userId, String dateStr) {
+    public void toggleLeave(Integer userId, String dateStr) {
 
+        // 🔐 Get logged-in user
+        UserPrincipal currentUser =
+                (UserPrincipal) SecurityContextHolder
+                        .getContext()
+                        .getAuthentication()
+                        .getPrincipal();
+
+        Long loggedInUserId = currentUser.getUserId();
+
+        // ❌ Permission check
+        if (!currentUser.isManager()
+                && !loggedInUserId.equals(Long.valueOf(userId))) {
+
+            throw new AccessDeniedException(
+                    "You are not allowed to edit another user's calendar"
+            );
+        }
+
+        // ✅ Business logic continues
         LocalDate date = LocalDate.parse(dateStr);
 
         Optional<Leave> existing =
@@ -45,6 +67,7 @@ public class LeaveService {
             leaveRepository.delete(leave);
         }
     }
+
     public List<Leave> getLeaves(String startDate, String endDate) {
         return leaveRepository.findByLeaveDateBetween(
                 LocalDate.parse(startDate),

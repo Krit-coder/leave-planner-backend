@@ -12,7 +12,7 @@ public class Leave {
     private Long id;
 
     @Column(name = "user_id", nullable = false)
-    private Long userId;
+    private Integer userId;
 
     @Column(name = "leave_date", nullable = false)
     private LocalDate leaveDate;
@@ -24,11 +24,11 @@ public class Leave {
         return id;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

@@ -21,6 +21,16 @@ public class User {
     private String module;
     private String email;
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    private String password;
+
     // getters & setters
 
     public Integer getId() {
@@ -57,6 +67,9 @@ public class User {
 
     public Integer getManagerAccess() {
         return managerAccess;
+    }
+    public boolean isManager() {
+        return managerAccess == 1;
     }
 
     public void setManagerAccess(Integer managerAccess) {

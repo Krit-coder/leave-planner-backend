@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface LeaveRepository extends JpaRepository<Leave, Long> {
 
     List<Leave> findByLeaveDateBetween(LocalDate start, LocalDate end);
-    Optional<Leave> findByUserIdAndLeaveDate(Long userId, LocalDate leaveDate);
+    Optional<Leave> findByUserIdAndLeaveDate(Integer userId, LocalDate leaveDate);
 }
 //public interface LeaveRepository extends JpaRepository<Leave, Long> {
 //}
