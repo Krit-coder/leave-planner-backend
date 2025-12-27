@@ -57,15 +57,31 @@ public class LeaveService {
         }
 
         Leave leave = existing.get();
+        String currentType = leave.getType();
 
-        if ("P".equals(leave.getType())) {
-            // P → U
-            leave.setType("U");
-            leaveRepository.save(leave);
-        } else {
-            // U → EMPTY
-            leaveRepository.delete(leave);
-        }
+        switch (currentType) {
+            case "P":
+                leave.setType("1HF");
+                leaveRepository.save(leave);
+                break;
+
+            case "1HF":
+                leave.setType("2HF");
+                leaveRepository.save(leave);
+                break;
+
+            case "2HF":
+                leave.setType("U");
+                leaveRepository.save(leave);
+                break;
+
+            case "U":
+                leaveRepository.delete(leave);
+                break;
+
+//            default:
+//                leaveRepository.delete(leave);
+                }
     }
 
     public List<Leave> getLeaves(String startDate, String endDate) {
