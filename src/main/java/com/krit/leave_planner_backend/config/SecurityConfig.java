@@ -47,9 +47,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         // Login API should be public
                         .requestMatchers("/api/auth/**").permitAll()
-
-                        // Everything else needs authentication
-                        .requestMatchers("/api/**").authenticated()
+                        // ✅ READ-ONLY APIs (Guest allowed)
+                        .requestMatchers(HttpMethod.GET, "/api/users").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/leaves").permitAll()
+                        // 🔒 WRITE APIs (Login required)
+                        .requestMatchers(HttpMethod.POST, "/api/leaves").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/**").authenticated()
 
                         // Allow other resources if needed
                         .anyRequest().permitAll()
